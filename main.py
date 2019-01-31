@@ -38,8 +38,8 @@ def display_help():
         "seats": "display entire table of california county seats",
         "county COUNTY": "search county table for specified county COUNTY, return entire row",
         "county ATTR COUNTY": "search county table for specified county COUNTY, return ATTR column value",
-        "seat SEAT": "search county table for specified county SEAT, return entire row",
-        "seat ATTR SEAT": "search county table for specified county SEAT, return ATTR column value",
+        "seat SEAT": "search county seat table for specified county seat SEAT, return entire row",
+        "seat ATTR SEAT": "search county seat table for specified county seat SEAT, return ATTR column value",
         # will add more help info after i get a schema of the database
     }
     for command in command_dict:
