@@ -30,7 +30,7 @@ def parse_input(my_input_param):
 
 
 def display_help():
-    print("California County and County Seat Access System\n")
+    print("\n - California County and County Seat Access System\n")
     command_dict = {
         "help": "display all commands and what they do",
         "schema": "list the database tables and column names",
