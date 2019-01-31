@@ -5,7 +5,7 @@ def main():
     while my_input != "quit":
         parse_input(my_input)
         my_input = input("> ")
-
+        
 
 def parse_input(my_input_param):
     input_array = my_input_param.split()
@@ -32,6 +32,7 @@ def parse_input(my_input_param):
 def display_help():
     print("\n - California County and County Seat Access System\n")
     command_dict = {
+        "quit": "exit application",
         "help": "display all commands and what they do",
         "schema": "list the database tables and column names",
         "counties": "display entire table of california counties",
@@ -54,7 +55,7 @@ def get_schema():
 
 def show_all_counties():
     print("searching county table")
-    # query SELECT * FROM county
+    # query SELECT * FROM county/counties
     return
 
 
@@ -66,13 +67,13 @@ def show_all_county_seats():
 
 def simple_county_query(some_input_array):
     print("checking county table for", some_input_array[1])
-    # build query of county table
+    # build and execute query of county table
     return
 
 
 def simple_county_seat_query(some_input_array):
     print("checking county seat table for", some_input_array[1])
-    # build query of county seat table
+    # build and execute query of county seat table
     return
 
 
