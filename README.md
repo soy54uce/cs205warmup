@@ -10,3 +10,8 @@ Group members:
 Packages used:
 * sqlite3
 
+usage
+```bash
+python3 main.py
+```
+
