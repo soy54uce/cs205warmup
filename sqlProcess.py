@@ -2,40 +2,40 @@
 
 import sqlite3
 
-# Test whether SQL and our dbase will work
+# Test function: will SQL and our dbase will work?
 def do_query_test():
     
-    # Create a connection
+    # Create a connection & cursor
     conn = sqlite3.connect('cali.db')
-    
-    # Create a cursor
     c = conn.cursor()
 
     c.execute('SELECT * FROM COUNTIES')
     for row in c.execute('SELECT * FROM COUNTIES'):
         print(row)
-    
+
+# Function to run queries    
 def do_query(some_input_array):
     
-    # Create a connection
+    # Create a connection & cursor
     conn = sqlite3.connect('cali.db')
-    
-    # Create a cursor
     c = conn.cursor()
 
+    
+    # Effort to sanitize SQL
     table = ('counties', )
     t = (some_input_array[0],)
     #u = (some_input_array[1],)
     #c.execute("SELECT population FROM COUNTIES WHERE name = '?'", (t,))
-    #c.execute("SELECT population FROM COUNTIES WHERE name = 'Los Angeles'")
+    
+    # Working simple query
     c.execute("select population from counties where \"County seat\" = 'Sonora'")
+    print(c.fetchone())
 
+    # Working join
+    c.execute("select seats.population from counties, seats where counties.name = seats.county and counties.name = 'Yuba County'")
     print(c.fetchone())
 
     
-    
-#do_query_test()
 # some_input_array = []
 some_input_array = ["Los Angeles"]
-# some_input_array[1] = "Los Angeles"
 do_query(some_input_array)
