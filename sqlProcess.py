@@ -26,15 +26,26 @@ def do_query(some_input_array):
     conn = sqlite3.connect('cali.db')
     c = conn.cursor()
 
+    #table = ('counties' )
+    table = (some_input_array[0])
+    # print(some_input_array[0])
 
-    # Effort to sanitize SQL
-    table = ('counties', )
-    t = (some_input_array[0],)
+    # "Clearing" code to get rid of brackets/quotes around array vars
+    # https://stackoverflow.com/questions/29642188/removing-the-square-brackets-commas-and-single-quote
+    table_cleared = (" ".join(some_input_array[0]))
+    # print(table_cleared)
+    attrib = (some_input_array[1])
+    attrib_cleared = (" ".join(some_input_array[1]))
+    # print(attrib_cleared)
+
     #u = (some_input_array[1],)
-    #c.execute("SELECT population FROM COUNTIES WHERE name = '?'", (t,))
 
     # Working simple query
-    c.execute("select population from counties where \"County seat\" = 'Sonora'")
+    # c.execute("select population from counties where \"County seat\" = 'Sonora'")
+
+    # Working simple query with variable sub
+    c.execute("select population from {} where \"County seat\" = {}".format(table_cleared, attrib_cleared))
+
     print(c.fetchone())
 
     # Working join
@@ -43,5 +54,5 @@ def do_query(some_input_array):
 
 
 # some_input_array = []
-some_input_array = ["Los Angeles"]
+some_input_array = ["counties"],["'Sonora'"]
 do_query(some_input_array)
