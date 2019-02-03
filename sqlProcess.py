@@ -4,7 +4,7 @@
 # BARRY SMITH - FEBRUARY 2019                           #
 #########################################################
 
-#! /usr/bin/env python3
+#! /usr/local/bin python3
 
 import sqlite3
 
@@ -20,31 +20,25 @@ def do_query_test():
         print(row)
 
 # Function to run queries
-def do_query(some_input_array):
+def do_query(table, some_input_array):
 
     # Create a connection & cursor
     conn = sqlite3.connect('cali.db')
     c = conn.cursor()
 
-    #table = ('counties' )
-    table = (some_input_array[0])
-    # print(some_input_array[0])
-
     # "Clearing" code to get rid of brackets/quotes around array vars
     # https://stackoverflow.com/questions/29642188/removing-the-square-brackets-commas-and-single-quote
-    table_cleared = (" ".join(some_input_array[0]))
-    # print(table_cleared)
-    attrib = (some_input_array[1])
-    attrib_cleared = (" ".join(some_input_array[1]))
-    # print(attrib_cleared)
-
-    #u = (some_input_array[1],)
+    attrib = (some_input_array[0])
+    attrib_cleared = (" ".join(some_input_array[0]))
+    print(attrib_cleared)
+    value_cleared = (" ".join(some_input_array[1]))
+    print(value_cleared)
 
     # Working simple query
     # c.execute("select population from counties where \"County seat\" = 'Sonora'")
 
     # Working simple query with variable sub
-    c.execute("select population from {} where \"County seat\" = {}".format(table_cleared, attrib_cleared))
+    c.execute("select {} from {} where \"County seat\" = {}".format(attrib_cleared, table, value_cleared))
 
     print(c.fetchone())
 
@@ -53,6 +47,15 @@ def do_query(some_input_array):
     print(c.fetchone())
 
 
-# some_input_array = []
-some_input_array = ["counties"],["'Sonora'"]
-do_query(some_input_array)
+# INPUT TESTING BELOW HERE ---------------------
+
+# What table are we going to use? Will depend on input string. Pick this up from Ben's code - here, we'll say it's "county"
+table_choice = "county"
+if table_choice == "county":
+    table = "counties"
+else:
+    table = "seats"
+
+# Pretend user wants pop of Sonora County
+some_input_array = ["population"],["'Sonora'"]
+do_query(table, some_input_array)
