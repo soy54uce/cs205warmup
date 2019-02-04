@@ -71,11 +71,26 @@ def do_query(table, some_input_array):
         print(c.fetchone())
         print()
 
+
+    else:
+        attrib = (some_input_array[0])
+        attrib_cleared = (" ".join(attrib))
+        join_value = (some_input_array[1])
+        join_value_cleared = (" ".join(join_value))
+        value_cleared = (" ".join(some_input_array[1]))
+        
+        if join_value_cleared == "seat":
+            table1 = "seats"
+            table2 = "counties"
+            
+            c.execute("select {}.{} from {}, {} where {}.name = {}.county and {}.name = value_cleared".format(table1, attrib_cleared, table1, table2, table2, table1, table2, value_cleared))        
+        
+        
         # Working join - for input like <population seat Yuba County>
         # This takes three inputs? Population, seat, and Yuba County?
-        c.execute("select seats.population from counties, seats where counties.name = seats.county and counties.name = 'Yuba County'")
-        print("Here is the population of Yuba County:")
-        print(c.fetchone())
+        #c.execute("select seats.population from counties, seats where counties.name = seats.county and counties.name = 'Yuba County'")
+        #print("Here is the population of Yuba County:")
+        #print(c.fetchone())
 
 
 
@@ -89,17 +104,26 @@ if table_choice == "county":
 else:
     table = "seats"
 
+# List tables
 first_input_array = ["tables"]
 do_query(table, first_input_array)
 
+# Show schema of counties
 second_input_array = ["schema"]
 do_query(table, second_input_array)
 
+# Show schema of seats
 third_input_array = ["schema"]
 table = "seats"
 do_query(table, third_input_array)
 
-# Pretend user wants pop of Los Angeles County
+# Pretend user wants pop of Los Angeles County: an
+# "attribute of a county" query
 table = "counties"
-some_input_array = ["population"],["'Los Angeles County'"]
-do_query(table, some_input_array)
+fourth_input_array = ["population"],["'Los Angeles County'"]
+do_query(table, fourth_input_array)
+
+fifth_input_array = ["established"], ["'Marin County'"]
+
+sixth_input_array = ["population"], ["seat"], ["Alameda County"]
+#do_query(table, sixth_input_array)
