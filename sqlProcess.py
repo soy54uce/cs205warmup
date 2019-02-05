@@ -26,11 +26,8 @@ def do_query(table, some_input_array):
     conn = sqlite3.connect('cali.db')
     c = conn.cursor()
 
-    # If we're looking for a simple attribute of a single table,
-    # there will only be two values in the array
-
+    # This if happens for an input array with less than two values
     if len(some_input_array) < 2:
-
 
 
         if (some_input_array[0] == "schema"):
@@ -52,7 +49,7 @@ def do_query(table, some_input_array):
             print(c.fetchall())
             print()
 
-
+    # This else-if happens for an input array with two values, like "population Los Angeles County"
     elif len(some_input_array) == 2:
         # "Clearing" code to get rid of brackets/quotes around array vars
         # https://stackoverflow.com/questions/29642188/removing-the-square-brackets-commas-nd-single-quote
@@ -71,7 +68,7 @@ def do_query(table, some_input_array):
         print(c.fetchone())
         print()
 
-
+    # This else happens for an array with three values
     else:
         attrib = (some_input_array[0])
         attrib_cleared = (" ".join(attrib))
@@ -80,10 +77,16 @@ def do_query(table, some_input_array):
         #value_cleared = (" ".join(some_input_array[2]))
         value_cleared = some_input_array[2]
 
-        
+        # This if happens when we have a county and are looking for some info about its county seat.
         if join_value_cleared == "County seat":
             table1 = "seats"
             table2 = "counties"
+
+        # This else happens when we have a county seat and are looking some info about its county    
+        else:
+            table1 = "counties"
+            table2 = "seats"
+        
         
             print(attrib_cleared)
             print(table1)
@@ -94,17 +97,16 @@ def do_query(table, some_input_array):
             print(value_cleared)
             
             print()
-            print("Here is the population of the {} of {}:".format(join_value_cleared, value_cleared))
-            c.execute("select {}.{} from {}, {} where {}.name = {}.county and {}.name = {}".format(table1, attrib_cleared, table2, table1, table2, table1, table2, value_cleared))  
+            print("Here is the {} of the {} of {}:".format(attrib_cleared, join_value_cleared, value_cleared))
+            c.execute("select {}.{} from {}, {} where {}.name = {}.county and {}.name = {}".format(table1, attrib_cleared, table2, table1, table1, table2, table2, value_cleared))  
             print(c.fetchone())
-      
         
         
         # Working join - for input like <population seat Yuba County>
         # This takes three inputs? Population, seat, and Yuba County?
         print()
         c.execute("select seats.population from counties, seats where counties.name = seats.county and counties.name = 'Yuba County'")
-        print("Here is the population the county seat of Yuba County:")
+        print("Here is the population of the county seat of Yuba County:")
         print(c.fetchone())
 
 
@@ -142,3 +144,12 @@ fifth_input_array = ["established"], ["'Marin County'"]
 
 sixth_input_array = ["population"], ["County seat"], ["Alameda County"]
 do_query(table, sixth_input_array)
+
+seventh_input_array = ["ID"], ["County seat"], ["Mono County"]
+do_query(table, seventh_input_array)
+
+table = "seats"
+eighth_input_array = ["population"], ["County"], ["Crescent City"]
+do_query(table, eighth_input_array)
+
+
