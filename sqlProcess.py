@@ -77,20 +77,35 @@ def do_query(table, some_input_array):
         attrib_cleared = (" ".join(attrib))
         join_value = (some_input_array[1])
         join_value_cleared = (" ".join(join_value))
-        value_cleared = (" ".join(some_input_array[1]))
+        #value_cleared = (" ".join(some_input_array[2]))
+        value_cleared = some_input_array[2]
+
         
-        if join_value_cleared == "seat":
+        if join_value_cleared == "County seat":
             table1 = "seats"
             table2 = "counties"
+        
+            print(attrib_cleared)
+            print(table1)
+            print(table2)
+            print(value_cleared)
+            # Extra work here to strip off the array brackets alone (leaving single quotes)
+            value_cleared = str(value_cleared)[1:-1]
+            print(value_cleared)
             
-            c.execute("select {}.{} from {}, {} where {}.name = {}.county and {}.name = value_cleared".format(table1, attrib_cleared, table1, table2, table2, table1, table2, value_cleared))        
+            print()
+            print("Here is the population of the {} of {}:".format(join_value_cleared, value_cleared))
+            c.execute("select {}.{} from {}, {} where {}.name = {}.county and {}.name = {}".format(table1, attrib_cleared, table2, table1, table2, table1, table2, value_cleared))  
+            print(c.fetchone())
+      
         
         
         # Working join - for input like <population seat Yuba County>
         # This takes three inputs? Population, seat, and Yuba County?
-        #c.execute("select seats.population from counties, seats where counties.name = seats.county and counties.name = 'Yuba County'")
-        #print("Here is the population of Yuba County:")
-        #print(c.fetchone())
+        print()
+        c.execute("select seats.population from counties, seats where counties.name = seats.county and counties.name = 'Yuba County'")
+        print("Here is the population the county seat of Yuba County:")
+        print(c.fetchone())
 
 
 
@@ -125,5 +140,5 @@ do_query(table, fourth_input_array)
 
 fifth_input_array = ["established"], ["'Marin County'"]
 
-sixth_input_array = ["population"], ["seat"], ["Alameda County"]
-#do_query(table, sixth_input_array)
+sixth_input_array = ["population"], ["County seat"], ["Alameda County"]
+do_query(table, sixth_input_array)
