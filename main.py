@@ -80,7 +80,6 @@ def show_all_counties():
 def show_all_county_seats():
     print("displaying seats table")
     # query SELECT * FROM seats
-    print("Hi")
     return
 
 
