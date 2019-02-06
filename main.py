@@ -5,10 +5,26 @@ def main():
     while my_input != "quit":
         parse_input(my_input)
         my_input = input("> ")
-        
+
 
 def parse_input(my_input_param):
     input_array = my_input_param.split()
+    print(input_array)
+    x = 0
+    while x < len(input_array):
+        has_upper = not input_array[x].islower()
+
+        if x+1 < len(input_array):
+            next_has_upper = not input_array[x+1].islower()
+        else:
+            next_has_upper = False
+        if has_upper and next_has_upper:
+            input_array[x] = input_array[x] + ' ' + input_array[x+1]
+            input_array.pop(x+1)
+            x = x - 1
+        x = x + 1
+    print(input_array)
+
     if len(input_array) < 2:
         if input_array[0] == "counties":
             show_all_counties()
@@ -54,11 +70,11 @@ def display_help():
         "counties": "display entire table of california counties",
         "county COUNTY": "search county table for specified county COUNTY, return entire row",
         "county ATTR COUNTY": "search county table for specified county COUNTY, return ATTR column value",
-        "county COUNTY seat SEAT": "search county table for COUNTY, join on seat SEAT",
+        "county ATTR seat SEAT": "search county table for a specific ATTR, join on seat SEAT",
         "seats": "display entire table of california county seats",
         "seat SEAT": "search county seat table for specified county seat SEAT, return entire row",
         "seat ATTR SEAT": "search county seat table for specified county seat SEAT, return ATTR column value",
-        "seat SEAT county COUNTY": "search seat table for SEAT, join on county COUNTY"
+        "seat ATTR county COUNTY": "search seat table for a specific ATTR, join on county COUNTY"
         # will add more help info after i get a schema of the database
     }
     for command in command_dict:
@@ -111,20 +127,6 @@ def county_to_seat_join(some_input_array):
 
 def seat_to_county_join(some_input_array):
     print("checking county seat table for", some_input_array[1], "where county is", some_input_array[3])
-    return
-
-
-def county_to_seat_join_attribute_query(some_input_array):
-    print("checking county table for column", some_input_array[1],
-          "of", some_input_array[2],
-          "with seat", some_input_array[4])
-    return
-
-
-def seat_to_county_join_attribute_query(some_input_array):
-    print("checking seat table for column", some_input_array[1],
-          "of", some_input_array[2],
-          "in", some_input_array[4])
     return
 
 
