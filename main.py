@@ -130,18 +130,4 @@ def seat_to_county_join(some_input_array):
     return
 
 
-def county_to_seat_join_attribute_query(some_input_array):
-    print("checking county table for column", some_input_array[1],
-          "of", some_input_array[2],
-          "with seat", some_input_array[4])
-    return
-
-
-def seat_to_county_join_attribute_query(some_input_array):
-    print("checking seat table for column", some_input_array[1],
-          "of", some_input_array[2],
-          "in", some_input_array[4])
-    return
-
-
 main()
