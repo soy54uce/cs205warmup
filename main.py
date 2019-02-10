@@ -1,3 +1,4 @@
+from sqlFunction import do_query
 
 
 def main():
@@ -9,7 +10,6 @@ def main():
 
 def parse_input(my_input_param):
     input_array = my_input_param.split()
-    print(input_array)
     x = 0
     while x < len(input_array):
         has_upper = not input_array[x].islower()
@@ -23,7 +23,6 @@ def parse_input(my_input_param):
             input_array.pop(x+1)
             x = x - 1
         x = x + 1
-    print(input_array)
 
     if len(input_array) < 2:
         if input_array[0] == "counties":
@@ -83,50 +82,49 @@ def display_help():
 
 
 def get_schema():
-    print("schema here")
+    do_query(get_schema.__name__)
     return
 
 
 def show_all_counties():
-    print("searching county table")
-    # query SELECT * FROM county/counties
+    do_query(show_all_counties.__name__)
     return
 
 
 def show_all_county_seats():
-    print("displaying seats table")
-    # query SELECT * FROM seats
+    do_query(show_all_county_seats.__name__)
+
     return
 
 
 def simple_county_query(some_input_array):
-    print("checking county table for", some_input_array[1])
-    # build and execute query of county table
+    do_query(simple_county_query.__name__, some_input_array)
     return
 
 
 def simple_county_seat_query(some_input_array):
-    print("checking county seat table for", some_input_array[1])
-    # build and execute query of county seat table
+    do_query(simple_county_seat_query.__name__, some_input_array)
+
     return
 
 
 def county_attribute_query(some_input_array):
-    print("checking county table for column", some_input_array[1], "where county is", some_input_array[2])
+    do_query(county_attribute_query.__name__, some_input_array)
     return
 
 
 def county_seat_attribute_query(some_input_array):
-    print("checking county seat table for column", some_input_array[1], "where county seat is", some_input_array[2])
+    do_query(county_seat_attribute_query.__name__, some_input_array)
+    return
 
 
 def county_to_seat_join(some_input_array):
-    print("checking county table for", some_input_array[1], "where county seat is", some_input_array[3])
+    do_query(county_to_seat_join.__name__, some_input_array)
     return
 
 
 def seat_to_county_join(some_input_array):
-    print("checking county seat table for", some_input_array[1], "where county is", some_input_array[3])
+    do_query(seat_to_county_join.__name__, some_input_array)
     return
 
 
