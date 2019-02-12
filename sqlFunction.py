@@ -6,21 +6,20 @@
 # BARRY SMITH - CS205 - FEBRUARY 2019                   #
 #########################################################
 
+from command import Command
 import sqlite3
 
 # Function to run queries
-def do_query(function_name, *some_input_array):
+def do_query(cmd, *some_input_array):
 
     # Create a connection & cursor
     conn = sqlite3.connect('cali.db')
     c = conn.cursor()
-    
     # Everything runs on this sequence of if-else statements that 
     # key off the names of the functions calling do_query
     
-    
     # Get schema - gives us tables and schemas
-    if (function_name == "get_schema"):
+    if (cmd == Command.Schema):
 
         c.execute("SELECT name FROM sqlite_master WHERE type='table';")
         print("Here are the tables:")
@@ -35,17 +34,17 @@ def do_query(function_name, *some_input_array):
             print(row)
     
     # Shows all the data in the counties table
-    elif(function_name == "show_all_counties"):
+    elif(cmd == Command.Counties):
         for row in c.execute("select * from counties"):
             print(row)
 
     # Shows all the data in the seats table        
-    elif(function_name == "show_all_county_seats"):
+    elif(cmd == Command.Seats):
         for row in c.execute("select * from seats"):
             print(row)
             
     # Shows a row for any given county
-    elif (function_name == "simple_county_query"):
+    elif (cmd == Command.CountyQ):
         # Using * for variable parameters for function, so
         # need to call some_input_array nested, like some_input_array[0][1]
         # https://thispointer.com/python-args-how-to-pass-multiple-arguments-to-function/
@@ -53,29 +52,27 @@ def do_query(function_name, *some_input_array):
         print(c.fetchone())
     
     # Shows a row for any given county seat   
-    elif (function_name == "simple_county_seat_query"):
+    elif (cmd == Command.SeatsQ):
         c.execute("select * from {} where \"Name\" = '{}'".format('seats', some_input_array[0][1]))
         print(c.fetchone())
         
     # Show any county attribute   
-    elif(function_name == "county_attribute_query"):
+    elif(cmd == Command.CountyAQ):
         c.execute("select {} from {} where \"Name\" = '{}'".format(some_input_array[0][1], 'counties', some_input_array[0][2]))
         print(c.fetchone())
 
     # Shows any seat attribute    
-    elif(function_name == "county_seat_attribute_query"):
+    elif(cmd == Command.SeatsAQ):
         c.execute("select {} from {} where \"Name\" = '{}'".format(some_input_array[0][1], 'seats', some_input_array[0][2]))
         print(c.fetchone())
     
     # Shows a county to seat join - i.e., "give me the attribute of the county with this seat
-    elif(function_name == "county_to_seat_join"):
+    elif(cmd == Command.CountyASeatQ):
         c.execute("select {}.{} from {}, {} where {}.name = {}.county and {}.name = '{}'".format('counties', some_input_array[0][1], 'counties', 'seats', 'counties', 'seats', 'seats', some_input_array[0][3]))
         print(c.fetchone())        
     
     # Shows a seat to county join - i.e., "give me the attribute of the seat in this county    
-    elif(function_name == "seat_to_county_join"):
+    elif(cmd == Command.SeatsACountyC):
         c.execute("select {}.{} from {}, {} where {}.name = {}.county and {}.name = '{}'".format('seats', some_input_array[0][1], 'counties', 'seats', 'counties', 'seats', 'counties', some_input_array[0][3]))
         print(c.fetchone())      
-    
     return
-
