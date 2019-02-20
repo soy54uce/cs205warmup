@@ -13,5 +13,6 @@ Packages used:
 usage
 ```bash
 python3 main.py
+python3 test_m.py -v 
 ```
 
